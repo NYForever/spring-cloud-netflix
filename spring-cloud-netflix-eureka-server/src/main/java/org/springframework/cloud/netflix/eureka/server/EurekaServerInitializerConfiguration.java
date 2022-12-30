@@ -62,17 +62,23 @@ public class EurekaServerInitializerConfiguration
 		this.servletContext = servletContext;
 	}
 
+	/**
+	 * import注册导入的类，优先级低于EurekaServerAutoConfiguration中配置的类
+	 */
 	@Override
 	public void start() {
 		new Thread(() -> {
 			try {
 				// TODO: is this class even needed now?
+				//初始化
 				eurekaServerBootstrap.contextInitialized(
 						EurekaServerInitializerConfiguration.this.servletContext);
 				log.info("Started Eureka Server");
 
+				//发布注册事件
 				publish(new EurekaRegistryAvailableEvent(getEurekaServerConfig()));
 				EurekaServerInitializerConfiguration.this.running = true;
+				//发布服务端启动完成事件
 				publish(new EurekaServerStartedEvent(getEurekaServerConfig()));
 			}
 			catch (Exception ex) {

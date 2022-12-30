@@ -98,6 +98,14 @@ public class InstanceRegistry extends PeerAwareInstanceRegistryImpl
 		return super.cancel(appName, serverId, isReplication);
 	}
 
+	/**
+	 * 续约
+	 *
+	 * @param appName
+	 * @param serverId
+	 * @param isReplication
+	 * @return
+	 */
 	@Override
 	public boolean renew(final String appName, final String serverId,
 			boolean isReplication) {
@@ -113,6 +121,7 @@ public class InstanceRegistry extends PeerAwareInstanceRegistryImpl
 						break;
 					}
 				}
+				//发布续约事件
 				publishEvent(new EurekaInstanceRenewedEvent(this, appName, serverId,
 						instance, isReplication));
 				break;

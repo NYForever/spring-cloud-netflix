@@ -255,6 +255,9 @@ public class EurekaServerAutoConfiguration implements WebMvcConfigurer {
 		return bean;
 	}
 
+	/**
+	 * 静态内部类优先加载
+	 */
 	@Configuration(proxyBeanMethods = false)
 	protected static class EurekaServerConfigBeanConfiguration {
 
@@ -350,6 +353,9 @@ public class EurekaServerAutoConfiguration implements WebMvcConfigurer {
 
 	}
 
+	/**
+	 * 非静态内部类，次于静态内部类加载
+	 */
 	class CloudServerCodecs extends DefaultServerCodecs {
 
 		CloudServerCodecs(EurekaServerConfig serverConfig) {
