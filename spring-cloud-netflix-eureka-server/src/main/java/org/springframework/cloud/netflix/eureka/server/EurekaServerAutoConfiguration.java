@@ -114,6 +114,11 @@ public class EurekaServerAutoConfiguration implements WebMvcConfigurer {
 				EurekaServerAutoConfiguration.class);
 	}
 
+	/**
+	 * 初始化一些接口，用于获取eurekaServer的信息
+	 *
+	 * @return
+	 */
 	@Bean
 	@ConditionalOnProperty(prefix = "eureka.dashboard", name = "enabled",
 			matchIfMissing = true)
@@ -148,16 +153,31 @@ public class EurekaServerAutoConfiguration implements WebMvcConfigurer {
 		return new ReplicationClientAdditionalFilters(Collections.emptySet());
 	}
 
+	/**
+	 * 初始化集群注册表
+	 *
+	 * @param serverCodecs
+	 * @return
+	 */
 	@Bean
 	public PeerAwareInstanceRegistry peerAwareInstanceRegistry(
 			ServerCodecs serverCodecs) {
 		this.eurekaClient.getApplications(); // force initialization
+		//重要
 		return new InstanceRegistry(this.eurekaServerConfig, this.eurekaClientConfig,
 				serverCodecs, this.eurekaClient,
 				this.instanceRegistryProperties.getExpectedNumberOfClientsSendingRenews(),
 				this.instanceRegistryProperties.getDefaultOpenForTrafficCount());
 	}
 
+	/**
+	 * 初始化集群节点集合
+	 *
+	 * @param registry
+	 * @param serverCodecs
+	 * @param replicationClientAdditionalFilters
+	 * @return
+	 */
 	@Bean
 	@ConditionalOnMissingBean
 	public PeerEurekaNodes peerEurekaNodes(PeerAwareInstanceRegistry registry,
@@ -176,6 +196,13 @@ public class EurekaServerAutoConfiguration implements WebMvcConfigurer {
 				registry, peerEurekaNodes, this.applicationInfoManager);
 	}
 
+	/**
+	 * 初始化springcloud包装的eureka原生启动类
+	 *
+	 * @param registry
+	 * @param serverContext
+	 * @return
+	 */
 	@Bean
 	public EurekaServerBootstrap eurekaServerBootstrap(PeerAwareInstanceRegistry registry,
 			EurekaServerContext serverContext) {
@@ -261,6 +288,12 @@ public class EurekaServerAutoConfiguration implements WebMvcConfigurer {
 	@Configuration(proxyBeanMethods = false)
 	protected static class EurekaServerConfigBeanConfiguration {
 
+		/**
+		 * 初始化eureka相关配置
+		 *
+		 * @param clientConfig
+		 * @return
+		 */
 		@Bean
 		@ConditionalOnMissingBean
 		public EurekaServerConfig eurekaServerConfig(EurekaClientConfig clientConfig) {
