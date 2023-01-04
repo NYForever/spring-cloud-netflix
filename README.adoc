@@ -66,6 +66,7 @@ EurekaServerStartedEvent Eureka Server 启动事件
 ### 2.源码
 
 流程图地址：https://www.processon.com/view/link/5e5fa095e4b0a967bb35b667
+
 image::image-2023-01-03-20-56-33-227.png[]
 
 
