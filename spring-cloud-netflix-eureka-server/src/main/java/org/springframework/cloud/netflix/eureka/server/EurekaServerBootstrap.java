@@ -158,6 +158,7 @@ public class EurekaServerBootstrap {
 		// Copy registry from neighboring eureka node
 		int registryCount = this.registry.syncUp();
 		//服务剔除 evict
+		//super.postInit(); 最终拿到双层map，循环看每个注册节点的最后注册时间，来判断是否剔除服务
 		this.registry.openForTraffic(this.applicationInfoManager, registryCount);
 
 		// Register all monitoring statistics.

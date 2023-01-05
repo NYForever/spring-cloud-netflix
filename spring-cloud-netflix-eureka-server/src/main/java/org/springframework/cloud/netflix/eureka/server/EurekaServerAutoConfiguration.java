@@ -155,6 +155,7 @@ public class EurekaServerAutoConfiguration implements WebMvcConfigurer {
 
 	/**
 	 * 初始化集群注册表
+	 * 处理client端的register、renew、cancel等请求
 	 *
 	 * @param serverCodecs
 	 * @return
@@ -171,7 +172,7 @@ public class EurekaServerAutoConfiguration implements WebMvcConfigurer {
 	}
 
 	/**
-	 * 初始化集群节点集合
+	 * 处理Eureka Server多节点同步
 	 *
 	 * @param registry
 	 * @param serverCodecs
